@@ -34,12 +34,17 @@ class Reclamacao(models.Model):
     ]
 
     id_reclamacao = models.CharField(primary_key=True, default=uuid.uuid4, editable=False, max_length=40)
+    
+    # NOVOS CAMPOS ADICIONADOS PARA O FORMULÁRIO ANGULAR
+    nome_cliente = models.CharField(max_length=150, verbose_name="Nome no formulário")
+    email_contato = models.EmailField(max_length=100, verbose_name="E-mail de contato")
+    telefone_contato = models.CharField(max_length=20, verbose_name="Telefone de contato")
+    
     titulo = models.CharField(max_length=100)
     descricao = models.TextField()
     data_abertura = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='aberto')
     
-    # Chaves Estrangeiras (FK) conforme o diagrama
     id_cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='reclamacoes')
     id_categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT, related_name='reclamacoes')
     id_atendente = models.ForeignKey(Atendente, on_delete=models.SET_NULL, null=True, blank=True, related_name='reclamacoes')

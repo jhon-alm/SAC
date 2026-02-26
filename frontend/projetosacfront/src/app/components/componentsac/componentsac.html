@@ -1,0 +1,41 @@
+<div class="sac-wrapper">
+  <div class="sac-header">
+    <div class="header-title">Sistema SAC</div>
+    <div class="header-subtitle">Preencha o formulário</div>
+  </div>
+
+  <div class="sac-body">
+    <form (ngSubmit)="salvar()">
+      
+      <div class="input-group">
+        <label>Nome Completo:</label>
+        <input type="text" name="nome_cliente" [(ngModel)]="reclamacao.nome_cliente" required>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <div class="input-group" style="flex: 2;">
+          <label>E-mail:</label>
+          <input type="email" name="email_contato" [(ngModel)]="reclamacao.email_contato" required>
+        </div>
+        <div class="input-group" style="flex: 1;">
+          <label>Telefone/WhatsApp:</label>
+          <input type="text" name="telefone_contato" [(ngModel)]="reclamacao.telefone_contato" required>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Título do Problema:</label>
+        <input type="text" name="titulo" [(ngModel)]="reclamacao.titulo" required>
+      </div>
+
+      <div class="input-group">
+        <label>Descrição Detalhada:</label>
+        <textarea name="descricao" [(ngModel)]="reclamacao.descricao" rows="4" required></textarea>
+      </div>
+
+      <div class="button-container">
+        <button type="submit">Enviar Protocolo</button>
+      </div>
+    </form>
+  </div>
+</div>

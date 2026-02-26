@@ -19,4 +19,17 @@ class AtendenteSerializer(serializers.ModelSerializer):
 class ReclamacaoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reclamacao
-        fields = ['id_reclamacao', 'titulo', 'descricao', 'data_abertura', 'status', 'id_cliente', 'id_categoria', 'id_atendente']
+        # Adicionei 'nome_cliente', 'email_contato' e 'telefone_contato' na lista abaixo
+        fields = [
+            'id_reclamacao', 
+            'nome_cliente', 
+            'email_contato', 
+            'telefone_contato', 
+            'titulo', 
+            'descricao', 
+            'data_abertura', 
+            'status', 
+            'id_cliente', 
+            'id_categoria', 
+            'id_atendente'
+        ]
