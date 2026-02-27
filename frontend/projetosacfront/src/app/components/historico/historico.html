@@ -1,0 +1,74 @@
+<div class="historico-wrapper">
+  <app-header></app-header>
+
+  <div class="historico-container">
+    <div class="historico-header">
+      <h1>Histórico de Reclamações</h1>
+      <button class="btn-voltar" (click)="voltar()">
+        <i class="fas fa-arrow-left"></i> Voltar
+      </button>
+    </div>
+
+    <div class="historico-content">
+      <div *ngIf="loading" class="loading-container">
+        <div class="spinner"></div>
+        <p>Carregando histórico...</p>
+      </div>
+
+      <div *ngIf="error" class="error-container">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>{{ error }}</p>
+        <button class="btn-retry" (click)="carregarReclamacoes()">Tentar Novamente</button>
+      </div>
+
+      <div *ngIf="!loading && !error">
+        <div *ngIf="reclamacoes.length === 0" class="empty-state">
+          <i class="fas fa-inbox"></i>
+          <p>Nenhuma reclamação encontrada.</p>
+        </div>
+
+        <div *ngIf="reclamacoes.length > 0" class="reclamacoes-list">
+          <div *ngFor="let reclamacao of reclamacoes" class="reclamacao-card">
+            <div class="reclamacao-header">
+              <div class="reclamacao-titulo">
+                <h3>{{ reclamacao.titulo }}</h3>
+                <span class="reclamacao-id">#{{ reclamacao.id_reclamacao }}</span>
+              </div>
+              <span class="status-badge" [ngClass]="getStatusClass(reclamacao.status)">
+                {{ getStatusLabel(reclamacao.status) }}
+              </span>
+            </div>
+
+            <div class="reclamacao-body">
+              <div class="reclamacao-info">
+                <div class="info-item">
+                  <i class="fas fa-user"></i>
+                  <span>{{ reclamacao.nome_cliente }}</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-envelope"></i>
+                  <span>{{ reclamacao.email_contato }}</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-phone"></i>
+                  <span>{{ reclamacao.telefone_contato }}</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-calendar"></i>
+                  <span>{{ formatarData(reclamacao.data_abertura) }}</span>
+                </div>
+              </div>
+
+              <div class="reclamacao-descricao">
+                <h4>Descrição</h4>
+                <p>{{ reclamacao.descricao }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

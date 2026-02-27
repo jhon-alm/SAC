@@ -1,8 +1,7 @@
-import uuid
 from django.db import models
 
 class Cliente(models.Model):
-    id_cliente = models.CharField(primary_key=True, default=uuid.uuid4, editable=False, max_length=40)
+    id_cliente = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     telefone = models.CharField(max_length=20)
@@ -11,7 +10,7 @@ class Cliente(models.Model):
         return self.nome
 
 class Categoria(models.Model):
-    id_categoria = models.CharField(primary_key=True, default=uuid.uuid4, editable=False, max_length=40)
+    id_categoria = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=50)
     descricao = models.CharField(max_length=200)
 
@@ -19,7 +18,7 @@ class Categoria(models.Model):
         return self.nome
 
 class Atendente(models.Model):
-    id_atendente = models.CharField(primary_key=True, default=uuid.uuid4, editable=False, max_length=40)
+    id_atendente = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=100)
     setor = models.CharField(max_length=50)
 
@@ -33,7 +32,7 @@ class Reclamacao(models.Model):
         ('concluido', 'Concluído'),
     ]
 
-    id_reclamacao = models.CharField(primary_key=True, default=uuid.uuid4, editable=False, max_length=40)
+    id_reclamacao = models.AutoField(primary_key=True)
     
     # NOVOS CAMPOS ADICIONADOS PARA O FORMULÁRIO ANGULAR
     nome_cliente = models.CharField(max_length=150, verbose_name="Nome no formulário")

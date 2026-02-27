@@ -1,41 +1,137 @@
-<div class="sac-wrapper">
-  <div class="sac-header">
-    <div class="header-title">Sistema SAC</div>
-    <div class="header-subtitle">Preencha o formulário</div>
+<div class="dashboard-wrapper">
+  <app-header></app-header>
+
+  <!-- Cards de Estatísticas -->
+  <div class="stats-container">
+    <div class="stat-card">
+      <div class="stat-icon" style="background-color: #ff6b6b;">
+        <i class="fas fa-clipboard-list"></i>
+      </div>
+      <div class="stat-content">
+        <div class="stat-value">{{ stats.totalReclamacoes || 0 }}</div>
+        <div class="stat-label">Total de Reclamações</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background-color: #4ecdc4;">
+        <i class="fas fa-hourglass-half"></i>
+      </div>
+      <div class="stat-content">
+        <div class="stat-value">{{ stats.emAberto || 0 }}</div>
+        <div class="stat-label">Em Aberto</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background-color: #45b7d1;">
+        <i class="fas fa-search"></i>
+      </div>
+      <div class="stat-content">
+        <div class="stat-value">{{ stats.emAnalise || 0 }}</div>
+        <div class="stat-label">Em Análise</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background-color: #96ceb4;">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <div class="stat-content">
+        <div class="stat-value">{{ stats.concluidas || 0 }}</div>
+        <div class="stat-label">Concluídas</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Indicador de Carregamento -->
+  <div *ngIf="loading" class="loading-indicator">
+    <i class="fas fa-spinner fa-spin"></i> Carregando estatísticas...
   </div>
 
-  <div class="sac-body">
-    <form (ngSubmit)="salvar()">
-      
-      <div class="input-group">
-        <label>Nome Completo:</label>
-        <input type="text" name="nome_cliente" [(ngModel)]="reclamacao.nome_cliente" required>
+  <!-- Layout Principal -->
+  <div class="dashboard-body">
+    <!-- Sidebar Esquerda -->
+    <div class="dashboard-sidebar">
+      <div class="sidebar-header">
+        <h3>Menu Principal</h3>
       </div>
+      <nav class="sidebar-nav">
+        <button class="nav-button active" (click)="navegarPara('reclamacoes')">
+          <span class="nav-icon"><i class="fas fa-file-alt"></i></span>
+          <span class="nav-text">Reclamações</span>
+        </button>
+        <button class="nav-button" (click)="navegarPara('historico')">
+          <span class="nav-icon"><i class="fas fa-chart-bar"></i></span>
+          <span class="nav-text">Histórico</span>
+        </button>
+      </nav>
+    </div>
 
-      <div style="display: flex; gap: 10px;">
-        <div class="input-group" style="flex: 2;">
-          <label>E-mail:</label>
-          <input type="email" name="email_contato" [(ngModel)]="reclamacao.email_contato" required>
+    <!-- Conteúdo Principal -->
+    <div class="dashboard-main">
+      <div class="content-card">
+        <div class="card-header">
+          <h2>Nova Reclamação</h2>
+          <p class="card-subtitle">Preencha os dados abaixo para registrar uma nova reclamação</p>
         </div>
-        <div class="input-group" style="flex: 1;">
-          <label>Telefone/WhatsApp:</label>
-          <input type="text" name="telefone_contato" [(ngModel)]="reclamacao.telefone_contato" required>
+        <div class="card-body">
+          <form (ngSubmit)="salvar()">
+            <div class="form-row">
+              <div class="input-group">
+                <label>Nome Completo:</label>
+                <input type="text" name="nome_cliente" [(ngModel)]="reclamacao.nome_cliente" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="input-group">
+                <label>E-mail:</label>
+                <input type="email" name="email_contato" [(ngModel)]="reclamacao.email_contato" required>
+              </div>
+              <div class="input-group">
+                <label>Telefone/WhatsApp:</label>
+                <input type="text" name="telefone_contato" [(ngModel)]="reclamacao.telefone_contato" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="input-group">
+                <label>Título do Problema:</label>
+                <input type="text" name="titulo" [(ngModel)]="reclamacao.titulo" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="input-group">
+                <label>Descrição Detalhada:</label>
+                <textarea name="descricao" [(ngModel)]="reclamacao.descricao" rows="5" required></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="submit-button">
+                <i class="fas fa-paper-plane"></i>
+                Enviar Reclamação
+              </button>
+            </div>
+          </form>
         </div>
       </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+  <router-outlet></router-outlet>
 
-      <div class="input-group">
-        <label>Título do Problema:</label>
-        <input type="text" name="titulo" [(ngModel)]="reclamacao.titulo" required>
+  <!-- Modal de Sucesso -->
+  <div *ngIf="showSuccessModal" class="modal-overlay" (click)="fecharModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-icon">
+        <i class="fas fa-check-circle"></i>
       </div>
-
-      <div class="input-group">
-        <label>Descrição Detalhada:</label>
-        <textarea name="descricao" [(ngModel)]="reclamacao.descricao" rows="4" required></textarea>
-      </div>
-
-      <div class="button-container">
-        <button type="submit">Enviar Protocolo</button>
-      </div>
-    </form>
+      <h2 class="modal-title">Reclamação Enviada com Sucesso!</h2>
+      <p class="modal-message">Sua reclamação foi registrada e será analisada pela nossa equipe.</p>
+      <button class="modal-button" (click)="fecharModal()">
+        <i class="fas fa-check"></i>
+        Entendi
+      </button>
+    </div>
   </div>
 </div>
